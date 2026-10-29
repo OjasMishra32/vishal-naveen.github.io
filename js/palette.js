@@ -18,7 +18,7 @@ export async function mount(ctx) {
   const { person, projects } = ctx.content;
   const go = (sel) => () => ctx.scrollTo(sel);
   const items = [
-    ...[['Tech stack', '#stack'], ['Selected work', '#lab'], ['More projects', '#work'], ['Experience', '#experience'], ['Leadership & awards', '#leadership'], ['Contact', '#contact']]
+    ...[['Highlights', '#highlights'], ['Experience', '#experience'], ['Selected work', '#lab'], ['More projects', '#work'], ['Leadership & awards', '#leadership'], ['Tech stack', '#stack'], ['Contact', '#contact']]
       .map(([label, sel]) => ({ group: 'Go to', label, run: go(sel) })),
     ...projects.map((p) => ({
       group: 'Projects', label: p.title, hint: p.kicker,

@@ -110,3 +110,14 @@
   .pcb__canvas { transition: none; }
   .pcb__detail.is-pressed .pcb__name { animation: none; }
 }
+
+/* The full skills list under the board: plain, scannable text chips by group. */
+.sk { margin-top: clamp(36px, 5vw, 64px); padding-top: clamp(20px, 2.4vw, 28px); border-top: 1px solid var(--line); }
+.sk__h { margin-bottom: 14px; color: var(--text-3); font-size: 13px; font-weight: 500; }
+.sk__grid { display: grid; gap: 0; }
+.sk__g { display: grid; grid-template-columns: minmax(150px, 210px) minmax(0, 1fr); gap: 10px 32px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.sk__g:last-child { border-bottom: 0; }
+.sk__g dt { color: var(--text); font-size: 15px; font-weight: 550; letter-spacing: -0.01em; padding-top: 3px; }
+.sk__g .chips { gap: 6px; }
+.sk__g .chip { height: 26px; font-size: 12px; color: var(--text-2); }
+@media (max-width: 700px) { .sk__g { grid-template-columns: 1fr; } }

@@ -1,4 +1,5 @@
-// #leadership: Middleton Robotics with three highlight numbers, then the awards as a tidy list beside the activities.
+// #leadership: Middleton Robotics with three highlight numbers and two lines, then the awards as a tidy list
+// beside the activities.
 import { esc, hl, secHead } from './util.js';
 
 function award(a) {
@@ -22,7 +23,7 @@ export function mountLeadership(el, ctx) {
     `<div class="ld__intro"><h3 class="ld__org">${esc(L.org)}</h3><p class="ld__role">${esc(L.role)}</p>` +
     `<p class="ld__meta">${esc(L.teams)}, ${esc(L.location)}. ${esc(L.period)}</p></div>` +
     `<div class="ld__main"><div class="ld__stats">${stats}</div>` +
-    `<p class="ld__blurb">${hl(L.bullets[0])}</p></div></article>` +
+    L.bullets.slice(0, 2).map((b) => `<p class="ld__blurb">${hl(b)}</p>`).join('') + `</div></article>` +
     `<div class="ld__cols">` +
     `<section aria-labelledby="ld-awards"><h3 class="ld__sub" id="ld-awards">Awards</h3>` +
     `<ul class="ld__awards" role="list">${awards.map(award).join('')}</ul></section>` +

@@ -64,7 +64,7 @@
   overflow: hidden; border: 1px solid var(--line-2); border-radius: var(--radius-lg); background: var(--line-2);
 }
 .cs-metrics .metric { gap: 10px; padding: clamp(20px, 2.6vw, 32px); background: #070707; }
-.cs-metrics .metric__value { font-size: clamp(34px, 4.4vw, 60px); }
+.cs-metrics .metric__value { font-size: clamp(26px, 3.2vw, 48px); white-space: nowrap; }
 .cs-metrics .metric__label { font-size: 15px; line-height: 1.4; }
 .cs-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
 .cs-linkbtn { height: 44px; padding: 0 20px; font-size: 14.5px; }
@@ -106,6 +106,18 @@
 .cs-results li:last-child, .cs-did li:last-child { border-bottom: 0; }
 .cs-results li::before { content: ''; width: 6px; height: 6px; margin-top: 0.7em; border-radius: 50%; background: var(--ember); }
 .cs-did li::before { content: ''; width: 12px; height: 1px; margin-top: 0.95em; background: var(--text-3); }
+.cs-pitch { margin-top: 18px; max-width: 52ch; color: var(--text); font-size: clamp(17px, 1.6vw, 21px); line-height: 1.45; }
+.cs-pitch span { display: block; margin-top: 4px; color: var(--text-3); font-size: 15px; }
+/* How it works: numbered steps, the number in mono, the step's name in bold. */
+.cs-how { display: grid; counter-reset: none; }
+.cs-how li { display: grid; grid-template-columns: 3ch minmax(0, 1fr); gap: 18px; align-items: start; padding-block: 18px; border-bottom: 1px solid var(--line); color: var(--text-2); font-size: clamp(17px, 1.5vw, 20px); line-height: 1.55; }
+.cs-how li:first-child { padding-top: 0; }
+.cs-how li:last-child { border-bottom: 0; }
+.cs-how strong { color: var(--text); font-weight: 650; }
+.cs-how__n { padding-top: 0.25em; color: var(--ember); font-family: var(--font-mono); font-size: 13px; }
+.cs-team { color: var(--text-2); font-size: clamp(17px, 1.5vw, 20px); line-height: 1.55; }
+.cs-team b { color: var(--text); font-weight: 650; }
+.cs-team__mine { margin-top: 10px; color: var(--text-3); font-size: 15px; line-height: 1.55; }
 
 /* TactileVLA eval grid, in heat */
 .cs-evalwrap { margin: 36px 0 0; }

@@ -1,69 +1,11 @@
-// #work: the four supporting projects as a calm 2x2 grid of cards (robotics first), plus the
-// case-study overlay for all five projects (including TactileVLA-Edge, whose featured card
-// lives in #lab). Deep links: #work/<id>.
+// #work: the supporting projects as a calm 2x2 grid of cards, plus the case-study overlay for every
+// project (including the featured ones, whose cards live in #lab). Deep links: #work/<id>.
 //
-// Every fact renders from content.js / excerpts.js. The only local data are the per-project result
-// lines and media pixel sizes (verified), and the illustrative graphics, which are labelled as such.
+// Every fact renders from content.js / excerpts.js (results, metrics, how-it-works steps, team credit).
+// The only local data are media pixel sizes and the illustrative graphics, which are labelled as such.
 import { aimHTML, mountAim, pathHTML, mountPath } from './work/fields.js';
 import { chartHTML, tannerHTML, mountTanner, armCharts } from './work/ldpc.js';
 import { phonesHTML, mountPhones } from './work/phones.js';
-
-const RESULTS = {
-  tactilevla: [
-    'ACT: **18/20** successful pick-and-place trials on a deformable object',
-    'SmolVLA (450M, fine-tuned): **16/20**',
-    'Both policies solved held-out cell **B2**, which appears in none of the 160 training episodes',
-    'Hardware: an SO-101 leader-follower rig built for under **$300**',
-  ],
-  sixthsense: [
-    '**15 fps** sustained detection on an iPhone 14 Pro',
-    '**12.7 MB** YOLOv8n Core ML model, running fully on device',
-    'Distance from a single camera: pinhole geometry over a **21-class** reference-size table',
-    'Requirements scoped with the City of Tampa ADA coordinator',
-  ],
-  ldpc: [
-    'Evaluation time: **103 min → 5.4 s**, a **1,100×** speedup',
-    'Syndrome success: DQN **25.9%** vs greedy bit-flipping **93.7%**, a gap traced to the parity-check matrix rather than the policy',
-    '**270** seeded trials per decoder; **810** trial records and a **3,600**-trial sweep published with verification scripts',
-  ],
-  decode: [
-    'Six autonomous routines, scoring from **0** to **18** artifacts',
-    'Flywheel shooter aimed with Limelight vision',
-    'Twelve tuning opmodes for the shooter and drivetrain',
-    'FTC Innovate Award, **1st place** (2026)',
-  ],
-  intothedeep: [
-    '**105**-point five-specimen autonomous on Pedro Pathing: the state record, and tied for the world record at the time',
-    '**0.8 s** intake-to-outtake transfer',
-    'Florida Championship finalist',
-  ],
-};
-
-// Extra headline numbers for the case-study strip (each one appears in RESULTS / content.js above).
-const EXTRA_METRICS = {
-  tactilevla: [
-    { value: '16/20', label: 'SmolVLA-450M success' },
-    { value: '160', label: 'Teleop demonstrations' },
-    { value: '<$300', label: 'SO-101 leader-follower rig' },
-  ],
-  sixthsense: [
-    { value: '12.7 MB', label: 'Core ML model, fully on device' },
-    { value: '21', label: 'classes in the reference-size table' },
-  ],
-  ldpc: [
-    { value: '270', label: 'seeded trials per decoder' },
-    { value: '3,600', label: 'trial parameter sweep' },
-  ],
-  decode: [
-    { value: '12', label: 'tuning opmodes' },
-    { value: '1st', label: 'FTC Innovate Award, 2026' },
-  ],
-  intothedeep: [
-    { value: 'Tied', label: 'world record at the time' },
-    { value: '0.8 s', label: 'intake-to-outtake transfer' },
-    { value: 'Finalist', label: 'Florida Championship' },
-  ],
-};
 
 // Intrinsic pixel sizes of the shipped media, keyed by file name.
 const DIMS = {
@@ -76,6 +18,14 @@ const DIMS = {
   'navigation.jpg': [443, 960],
   'mapping.jpg': [443, 960],
   'ldpc-decoder-comparison.png': [1116, 664],
+  'zeroshot-loop.mp4': [960, 440],
+  'zeroshot-film.mp4': [1280, 720],
+  'zeroshot-planner-ui.jpg': [1280, 644],
+  'lucid-views.mp4': [1920, 654],
+  'lucid-real.jpg': [920, 1536],
+  'lucid-render.jpg': [920, 1536],
+  'lucid-tennis.mp4': [1280, 720],
+  'lucid-chess.mp4': [1280, 720],
 };
 
 // Read off the chart itself (bar labels), so screen readers get what sighted users see.
@@ -97,7 +47,7 @@ const ICON = {
 };
 
 const CASE_HASH = /^#work\/([\w-]+)$/;
-const SHOWCASE = ['decode', 'intothedeep', 'ldpc', 'sixthsense'];
+const SHOWCASE = ['sixthsense', 'decode', 'intothedeep', 'ldpc'];
 
 export async function mount(ctx) {
   const root = document.getElementById('work');
@@ -110,7 +60,6 @@ export async function mount(ctx) {
   const indexOf = (id) => projects.findIndex((p) => p.id === id);
   const fileName = (src) => src.split('/').pop();
   const dims = (src) => DIMS[fileName(src)] || [16, 9];
-  const stat = (id) => content.stats.find((s) => s.id === id);
 
   /* ── Shared fragments ────────────────────────────────────────────── */
   const chips = (list) => `<ul class="chips" aria-label="Stack">${list.map((s) => `<li class="chip">${esc(s)}</li>`).join('')}</ul>`;
@@ -164,10 +113,7 @@ export async function mount(ctx) {
   /* ── Case-study overlay ──────────────────────────────────────────── */
   let overlay = null;
 
-  function caseMetrics(p) {
-    const first = p.id === 'tactilevla' ? { value: stat('act').display, label: 'ACT policy success' } : { value: p.metric.display, label: p.metric.label };
-    return [first, ...(EXTRA_METRICS[p.id] || [])];
-  }
+  const caseMetrics = (p) => p.metrics || [{ value: p.metric.display, label: p.metric.label }];
 
   function figure(m, kind) {
     const [w, h] = dims(m.src);
@@ -185,9 +131,10 @@ export async function mount(ctx) {
 
   // Consecutive portrait items become a "stage"; a lone landscape item next to a lone portrait one becomes a "duo".
   function mediaHTML(p) {
-    if (!p.media.length) return '';
+    const list = p.media.filter((m) => !m.caseHide);
+    if (!list.length) return '';
     const groups = [];
-    p.media.forEach((m) => {
+    list.forEach((m) => {
       const [w, h] = dims(m.src);
       const portrait = h > w;
       const last = groups[groups.length - 1];
@@ -248,6 +195,23 @@ export async function mount(ctx) {
     );
   }
 
+  function howSection(p) {
+    if (!p.how || !p.how.length) return '';
+    return (
+      `<section class="container cs-section" aria-labelledby="cs-h-how"><h3 class="cs-h" id="cs-h-how">How it works</h3>` +
+      `<ol class="cs-how reveal">${p.how.map((h, i) => `<li><span class="cs-how__n">${String(i + 1).padStart(2, '0')}</span><span>${inline(h)}</span></li>`).join('')}</ol></section>`
+    );
+  }
+
+  function teamSection(p) {
+    if (!p.team) return '';
+    return (
+      `<section class="container cs-section" aria-labelledby="cs-h-team"><h3 class="cs-h" id="cs-h-team">Team</h3>` +
+      `<div class="cs-col reveal"><p class="cs-team">${p.team.members.map((n) => n === content.person.name ? `<b>${esc(n)}</b>` : esc(n)).join(', ')}</p>` +
+      `<p class="cs-team__mine">${esc(p.team.mine)}</p></div></section>`
+    );
+  }
+
   function compareSection(p) {
     if (p.id !== 'ldpc') return '';
     return (
@@ -260,7 +224,7 @@ export async function mount(ctx) {
     const i = indexOf(p.id);
     const next = projects[(i + 1) % projects.length];
     const ms = caseMetrics(p);
-    const results = RESULTS[p.id] || [];
+    const results = p.results || [];
     return (
       `<div class="cs-bar"><div class="cs-bar__in">` +
       `<button class="cs-back" type="button" data-cs-close>${ICON.back}<span>Selected work</span></button>` +
@@ -273,18 +237,21 @@ export async function mount(ctx) {
       `<p class="cs-kicker reveal"><span>${kicker(p.kicker)}</span><span class="wk__period">${esc(p.period)}</span></p>` +
       `<h2 class="d1 cs-title lines" id="cs-title">${lib.lines([p.title])}</h2>` +
       `<p class="lead cs-summary reveal">${esc(p.summary)}</p>` +
+      (p.pitch ? `<p class="cs-pitch reveal">“${esc(p.pitch)}” <span>${esc(p.scope)}</span></p>` : '') +
       `<div class="reveal">${chips(p.stack)}</div>` +
       `</header>` +
       `<div class="container"><div class="cs-metrics reveal" style="--n:${ms.length}">${ms.map((m) => metric(m.value, m.label)).join('')}</div></div>` +
       `<div class="container cs-links reveal">${p.links.map((l) => linkItem(l, 'btn cs-linkbtn')).join('')}</div>` +
       compareSection(p) +
       mediaHTML(p) +
+      howSection(p) +
       `<section class="container cs-section" aria-labelledby="cs-h-res"><h3 class="cs-h" id="cs-h-res">Results</h3><div class="cs-col reveal">` +
       `<ul class="cs-results">${results.map((r) => `<li><span>${inline(r)}</span></li>`).join('')}</ul>` +
       (p.id === 'tactilevla' ? evalGrid() : '') +
       `</div></section>` +
-      `<section class="container cs-section" aria-labelledby="cs-h-did"><h3 class="cs-h" id="cs-h-did">What I did</h3>` +
+      `<section class="container cs-section" aria-labelledby="cs-h-did"><h3 class="cs-h" id="cs-h-did">${esc(p.bulletsTitle || 'What I did')}</h3>` +
       `<ul class="cs-did reveal">${p.bullets.map((b) => `<li><span>${inline(b)}</span></li>`).join('')}</ul></section>` +
+      teamSection(p) +
       codeSection(p) +
       `<div class="container"><button class="card cs-next reveal" type="button" data-cs-next="${next.id}" aria-label="Next project: ${esc(next.title)}">` +
       `<span class="cs-next__label">Next project</span>` +

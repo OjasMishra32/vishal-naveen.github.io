@@ -7,7 +7,7 @@
     setTimeout(function () { var r = document.documentElement; if (r.classList.contains('is-loading')) { r.classList.remove('is-loading'); var l = document.getElementById('loader'); if (l) l.remove(); } }, 12000);</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Vishal Naveen: robotics, ML and embedded software</title>
-  <meta name="description" content="Vishal Naveen, electrical engineering at the University of Florida. Imitation-learning robot policies, on-device computer vision, and competition robotics code.">
+  <meta name="description" content="Vishal Naveen, electrical engineering at the University of Florida: bare-metal Rust firmware for Formula SAE telemetry, certified 3D perception research, robot-learning policies and award-placed robotics builds.">
   <meta name="theme-color" content="#000000">
   <!-- SEO -->
   <link rel="canonical" href="https://vishal-naveen.github.io/">
@@ -15,7 +15,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Vishal Naveen">
   <meta property="og:title" content="Vishal Naveen: robotics, ML and embedded software">
-  <meta property="og:description" content="Electrical engineering student at the University of Florida building robots that learn: imitation-learning policies on sub-$300 hardware, on-device computer vision, and competition robotics code.">
+  <meta property="og:description" content="Electrical engineering student at the University of Florida: bare-metal Rust telemetry firmware for Gator Motorsports, certified perception research in the TEA Lab, robot-learning policies on a sub-$300 arm, and 3rd of 141 teams at SwampHacks XII.">
   <meta property="og:url" content="https://vishal-naveen.github.io/">
   <meta property="og:image" content="https://vishal-naveen.github.io/assets/og.png">
   <meta property="og:image:width" content="1200">
@@ -23,7 +23,7 @@
   <meta property="og:image:alt" content="Vishal Naveen — Electrical Engineering at UF. Robotics, ML, Embedded.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Vishal Naveen: robotics, ML and embedded software">
-  <meta name="twitter:description" content="Electrical engineering student at the University of Florida building robots that learn: imitation-learning policies on sub-$300 hardware, on-device computer vision, and competition robotics code.">
+  <meta name="twitter:description" content="Electrical engineering student at the University of Florida: bare-metal Rust telemetry firmware for Gator Motorsports, certified perception research in the TEA Lab, robot-learning policies on a sub-$300 arm, and 3rd of 141 teams at SwampHacks XII.">
   <meta name="twitter:image" content="https://vishal-naveen.github.io/assets/og.png">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -35,7 +35,7 @@
   "image": "https://vishal-naveen.github.io/assets/og.png",
   "email": "mailto:vishalnaveen@ufl.edu",
   "jobTitle": "Electrical Engineering student",
-  "description": "Electrical engineering student at the University of Florida building robots that learn: imitation-learning policies on sub-$300 hardware, on-device computer vision, and competition robotics code.",
+  "description": "Electrical engineering student at the University of Florida: bare-metal Rust telemetry firmware for Gator Motorsports, certified perception research in the TEA Lab, robot-learning policies on a sub-$300 arm, and 3rd of 141 teams at SwampHacks XII.",
   "alumniOf": {
     "@type": "CollegeOrUniversity",
     "name": "University of Florida"
@@ -85,14 +85,15 @@
       <span class="loader__track"><span class="loader__bar"><i></i></span><span class="loader__pct">0</span></span>
     </div>
   </div>
-  <a class="skip-link" href="#lab">Skip to the work</a>
+  <a class="skip-link" href="#experience">Skip to the content</a>
 
   <header class="nav" id="nav">
     <a class="nav__brand" href="#top" aria-label="Vishal Naveen, back to top">Vishal Naveen</a>
     <nav class="nav__links" aria-label="Primary">
-      <a class="nav__link" href="#stack" data-sections="stack">Stack</a>
+      <a class="nav__link" href="#experience" data-sections="highlights experience">Experience</a>
       <a class="nav__link" href="#lab" data-sections="lab work">Work</a>
-      <a class="nav__link" href="#experience" data-sections="experience leadership">Experience</a>
+      <a class="nav__link" href="#leadership" data-sections="leadership">Leadership</a>
+      <a class="nav__link" href="#stack" data-sections="stack">Stack</a>
       <a class="nav__link" href="#contact" data-sections="contact">Contact</a>
     </nav>
     <div class="nav__actions">
@@ -110,12 +111,9 @@
         <h1 class="hero__name" aria-label="Vishal Naveen"><span class="hero__word">Vishal</span><span class="hero__word">Naveen</span></h1>
         <div class="hero__stage" aria-hidden="true"><p class="hero__cap" id="hero-hud"></p></div>
         <div class="hero__intro">
-          <p class="hero__lead">I build robots that learn, from the servo bus up to the policy.</p>
-          <ul class="hero__creds" aria-label="At a glance">
-            <li><span>Electrical Engineering</span><span>University of Florida, Honors Program</span></li>
-            <li><span>Robot learning research</span><span>TactileVLA-Edge</span></li>
-            <li><span>Team captain &amp; lead programmer</span><span>Middleton Robotics</span></li>
-          </ul>
+          <p class="hero__lead" data-fill="tagline">I build robots that learn, from bare-metal firmware up to the policy.</p>
+          <!-- Filled from content.person.creds by main.js -->
+          <ul class="hero__creds" aria-label="At a glance"></ul>
           <div class="hero__ctas">
             <a class="btn btn--hot" href="assets/Vishal_Naveen_Resume.pdf" target="_blank" rel="noopener">R&eacute;sum&eacute;</a>
             <a class="btn" href="mailto:vishalnaveen@ufl.edu">Get in touch</a>
@@ -130,11 +128,12 @@
       <canvas class="hero__arm" aria-hidden="true"></canvas>
     </section>
 
-    <section class="section" id="stack" aria-labelledby="stack-title"></section>
+    <section class="hi" id="highlights" aria-labelledby="highlights-title"></section>
+    <section class="section" id="experience" aria-labelledby="experience-title"></section>
     <section class="section lab" id="lab" aria-labelledby="lab-title"></section>
     <section class="section work" id="work" aria-label="More projects"></section>
-    <section class="section" id="experience" aria-labelledby="experience-title"></section>
     <section class="section" id="leadership" aria-labelledby="leadership-title"></section>
+    <section class="section" id="stack" aria-labelledby="stack-title"></section>
   </main>
 
   <footer class="section" id="contact" aria-labelledby="contact-title"></footer>
@@ -147,7 +146,7 @@
     <div style="max-width:760px;margin:0 auto">
       <h1 style="font-size:clamp(40px,10vw,84px);line-height:.98;margin:0 0 12px;font-weight:600;letter-spacing:-.04em">Vishal Naveen</h1>
       <p style="font-size:20px;margin:0 0 8px;color:#ff7a1f">Electrical Engineering @ University of Florida</p>
-      <p style="margin:0 0 8px">I build robots that learn — and the software that makes them work.</p>
+      <p style="margin:0 0 8px">I build robots that learn, from bare-metal firmware up to the policy.</p>
       <p style="margin:0 0 8px;color:#b9aba2">Gainesville, FL &middot; Open to research &amp; internship opportunities</p>
       <p style="margin:0">
         <a href="mailto:vishalnaveen@ufl.edu" style="color:#ff7a1f">vishalnaveen@ufl.edu</a> &middot;
@@ -156,25 +155,29 @@
         <a href="assets/Vishal_Naveen_Resume.pdf" style="color:#ff7a1f">Resume (PDF)</a>
       </p>
       <h2 style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ff7a1f;margin:32px 0 12px;font-family:ui-monospace,Menlo,monospace;font-weight:500">About</h2>
-      <p style="margin:0">I'm an electrical engineering student at the University of Florida who builds robots that learn. I train manipulation policies on sub-$300 hardware, ship computer vision to phones, and write the autonomous code that took my team to its first state title in seven years.</p>
-      <h2 style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ff7a1f;margin:32px 0 12px;font-family:ui-monospace,Menlo,monospace;font-weight:500">Projects</h2>
-      <ul style="margin:0;padding-left:20px">
-      <li style="margin:0 0 6px"><strong>TactileVLA-Edge</strong> &mdash; Imitation-learning policies for robot manipulation on a sub-$300 SO-101 arm — both generalize to a workspace cell they never saw in training.</li>
-      <li style="margin:0 0 6px"><strong>Sixth Sense</strong> &mdash; An iOS navigation aid for blind and low-vision users: on-device obstacle detection with distance estimated from a single camera, and AR-recorded routes.</li>
-      <li style="margin:0 0 6px"><strong>RL LDPC Decoding</strong> &mdash; A deep Q-network that decodes LDPC error-correcting codes by choosing bit flips — benchmarked against greedy bit-flipping and BP+LSD across 270 seeded trials.</li>
-      <li style="margin:0 0 6px"><strong>Midnight · DECODE</strong> &mdash; Competition robot code for the 2025–26 FTC season: a flywheel shooter with Limelight targeting and six autonomous routines. Innovate Award.</li>
-      <li style="margin:0 0 6px"><strong>Midnight · Into the Deep</strong> &mdash; Competition robot code for the 2024–25 FTC season: a five-specimen autonomous on Pedro Pathing and a 0.8-second intake-to-outtake transfer.</li>
-      </ul>
+      <p style="margin:0">I'm an electrical engineering student at the University of Florida. I write bare-metal Rust firmware for Gator Motorsports' telemetry, research certified 3D perception for self-driving cars in the TEA Lab, and train manipulation policies on a sub-$300 robot arm I built.</p>
       <h2 style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ff7a1f;margin:32px 0 12px;font-family:ui-monospace,Menlo,monospace;font-weight:500">Experience</h2>
       <ul style="margin:0;padding-left:20px">
+      <li style="margin:0 0 6px"><strong>Firmware Engineer</strong>, Gator Motorsports (Aug 2026 — Present): real-time telemetry in Rust, bare-metal on an NXP i.MX RT1176 over 1 Gbps Ethernet.</li>
+      <li style="margin:0 0 6px"><strong>Undergraduate Researcher</strong>, TEA Lab, University of Florida (Oct 2026 — Present): certified, uncertainty-aware 3D perception; 32 models, ~120 B200 GPU-hours.</li>
+      <li style="margin:0 0 6px"><strong>Software Engineer</strong>, Flash Translation Layer Project (Sep 2026 — Present): a C++17 FTL for SPI NAND, zero divergence over 100K differential operations.</li>
       <li style="margin:0 0 6px"><strong>Algorithm Developer &amp; Beta Tester</strong>, Pedro Pathing (Jun 2025 — Jan 2026)</li>
       <li style="margin:0 0 6px"><strong>Student Researcher</strong>, University of South Florida (Dec 2024 — Jan 2026)</li>
       <li style="margin:0 0 6px"><strong>Software Developer</strong>, Inc to Inc (Jun 2023 — Jul 2025)</li>
       </ul>
+      <h2 style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ff7a1f;margin:32px 0 12px;font-family:ui-monospace,Menlo,monospace;font-weight:500">Projects</h2>
+      <ul style="margin:0;padding-left:20px">
+      <li style="margin:0 0 6px"><strong>TactileVLA-Edge</strong> &mdash; Imitation-learning policies on a sub-$300 SO-101 arm: 18/20 (ACT) and 16/20 (SmolVLA-450M), both solving a workspace cell held out of training.</li>
+      <li style="margin:0 0 6px"><strong>Zer0Sh0t</strong> &mdash; 3rd Place, Best Overall, SwampHacks XII (141 teams, team of 4): a voice-controlled robot arm that turns spoken requests into pick, place and point actions with no task-specific training.</li>
+      <li style="margin:0 0 6px"><strong>Lucid Dreams</strong> &mdash; Top 10 Finalist, Gator Hack V (team of 4): photoreal, life-size 3D people in Meta Quest passthrough. I built Court Side and the animated avatars.</li>
+      <li style="margin:0 0 6px"><strong>Sixth Sense</strong> &mdash; An iOS navigation aid for blind and low-vision users; 3rd place, 2024 Congressional App Challenge.</li>
+      <li style="margin:0 0 6px"><strong>Midnight · DECODE</strong> and <strong>Into the Deep</strong> &mdash; FTC competition code, including a 105-point autonomous that set the state record and tied the world record at the time.</li>
+      <li style="margin:0 0 6px"><strong>RL LDPC Decoding</strong> &mdash; A deep Q-network LDPC decoder; evaluation sped up 1,100×.</li>
+      </ul>
       <h2 style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ff7a1f;margin:32px 0 12px;font-family:ui-monospace,Menlo,monospace;font-weight:500">Leadership</h2>
-      <p style="margin:0"><strong>FTC Team Captain &amp; Lead Programmer</strong>, Middleton Robotics (Aug 2023 — May 2026). Led a 15-member team to its first state title in 7 years and programmed a world-record-tying 105-point autonomous routine.</p>
+      <p style="margin:0"><strong>FTC Team Captain &amp; Lead Programmer</strong>, Middleton Robotics (Aug 2023 — May 2026). Led a 15-member team to its first state title in 7 years and raised $33,000 as captain.</p>
       <h2 style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ff7a1f;margin:32px 0 12px;font-family:ui-monospace,Menlo,monospace;font-weight:500">Education</h2>
-      <p style="margin:0">B.S. Electrical Engineering, University of Florida &mdash; May 2029. Minor in Computer Science.</p>
+      <p style="margin:0">B.S. Electrical Engineering, University of Florida &mdash; May 2029. Minor in Computer Science. GPA 4.0.</p>
       <p style="margin:32px 0 0;color:#b9aba2;font-size:14px">This site uses JavaScript for its animated experience; the essentials are above.</p>
     </div>
   </div>

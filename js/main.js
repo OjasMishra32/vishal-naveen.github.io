@@ -61,10 +61,19 @@ document.addEventListener('click', (e) => {
 
 lib.enableSpotlight();
 
+// The hero's static markup carries no facts of its own: its tagline and at-a-glance list come from content.js.
+{
+  const creds = document.querySelector('.hero__creds');
+  if (creds) creds.innerHTML = content.person.creds.map(([what, where]) => `<li><span>${lib.esc(what)}</span><span>${lib.esc(where)}</span></li>`).join('');
+  const tag = document.querySelector('[data-fill="tagline"]');
+  if (tag) tag.textContent = content.person.tagline;
+}
+
 const parts = [
   ['chrome', () => import('./chrome/chrome.js')],
   ['hero', () => import('./hero/forge.js')],
   ['arm', () => import('./arm/stage.js')],
+  ['highlights', () => import('./sections/highlights.js')],
   ['lab', () => import('./sections/lab.js')],
   ['work', () => import('./sections/work.js')],
   ['about', () => import('./sections/about.js')],

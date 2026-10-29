@@ -23,6 +23,8 @@ python3 -m http.server 5190
 | `js/arm/` | The 3D arm: URDF loader, materials, IK follower, scene. |
 | `js/hero/` | Hero layout and the name's subtle cursor warmth. |
 | `js/sections/pcb/` | The circuit-board tech stack. |
-| `js/sections/work.js` | Projects and the case-study overlay (`#work/<id>` deep links). |
-| `js/sections/about/` | Experience, leadership, and contact (with the 7-segment clock). |
+| `js/sections/highlights.js` | The six-number proof strip under the hero. |
+| `js/sections/lab.js` | The featured project cards (projects with `featured: true`). |
+| `js/sections/work.js` | The project grid and the case-study overlay (`#work/<id>` deep links). |
+| `js/sections/about/` | Experience (with expandable details), leadership, and contact (with the 7-segment clock). |
 | `css/tokens.css` | Colors, type scale, spacing. |

@@ -26,12 +26,12 @@ const R = {
   swift: [[-MCU_EDGE, -10], [-24, -10], [-28, -14], [-36, -14]],
   java: [[-MCU_EDGE, -2.2], [-58, -2.2], [-62, -6.2], [-62, -12], [-64, -14], [-67, -14]],
   javascript: [[-MCU_EDGE, 2.2], [-58, 2.2], [-62, 6.2], [-62, 12], [-64, 14], [-67, 14]],
-  sql: [[-MCU_EDGE, 10], [-24, 10], [-28, 14], [-36, 14]],
+  rust: [[-MCU_EDGE, 10], [-24, 10], [-28, 14], [-36, 14]],
   // right side
-  huggingface: [[MCU_EDGE, -10], [24, -10], [28, -14], [37, -14]],
+  mtl: [[MCU_EDGE, -10], [24, -10], [28, -14], [37, -14]],
   sb3: [[MCU_EDGE, -2.2], [58, -2.2], [62, -6.2], [62, -12], [64, -14], [67, -14]],
   coreml: [[MCU_EDGE, 2.2], [58, 2.2], [62, 6.2], [62, 12], [64, 14], [67, 14]],
-  opencv: [[MCU_EDGE, 10], [24, 10], [28, 14], [37, 14]],
+  slurm: [[MCU_EDGE, 10], [24, 10], [28, 14], [37, 14]],
   // top side: two lanes out to each far corner, straight runs up to the modules' headers
   python: [[-13.5, -MCU_EDGE], [-13.5, -23.6], [-16.5, -26.6], [-72, -26.6], [-75, -29.6], [-75, -33]],
   cpp: [[-10.25, -MCU_EDGE], [-10.25, -26.4], [-13.25, -29.4], [-43.5, -29.4], [-45, -30.9], [-45, -33]],
@@ -41,10 +41,10 @@ const R = {
   lerobot: [[13.5, -MCU_EDGE], [13.5, -23.6], [16.5, -26.6], [72, -26.6], [75, -29.6], [75, -34.6]],
   // bottom side
   git: [[-13.5, MCU_EDGE], [-13.5, 23.6], [-16.5, 26.6], [-68.5, 26.6], [-75, 33.1], [-75, 37]],
-  arkit: [[-10.25, MCU_EDGE], [-10.25, 26.4], [-13.25, 29.4], [-39.5, 29.4], [-45, 34.9], [-45, 37]],
+  embassy: [[-10.25, MCU_EDGE], [-10.25, 26.4], [-13.25, 29.4], [-39.5, 29.4], [-45, 34.9], [-45, 37]],
   pid: [[-7, MCU_EDGE], [-7, 35.75]],
   bezier: [[7, MCU_EDGE], [7, 35.75]],
-  node: [[10.25, MCU_EDGE], [10.25, 26.4], [13.25, 29.4], [39.5, 29.4], [45, 34.9], [45, 37]],
+  cortexm: [[10.25, MCU_EDGE], [10.25, 26.4], [13.25, 29.4], [39.5, 29.4], [45, 34.9], [45, 37]],
 };
 // The USB-C power run (decorative: it is the board's supply, not a skill).
 const POWER = [[13.5, MCU_EDGE], [13.5, 23.6], [16.5, 26.6], [72, 26.6], [75, 29.6], [75, 53]];
@@ -139,7 +139,7 @@ export function buildLayout() {
     if (!nearHole && !nearLed && clearOf(item, 2.6) && rectRectGap(item, usb) > 2.4 && rectRectGap(item, label) > 1.2) stitch.push({ x, z, r: 0.62, j: rand() });
   }
   // A handful of vias sitting on the traces themselves, where a bus changes layer.
-  const onTrace = ['python', 'lerobot', 'git', 'node', 'java', 'coreml'].map((id) => {
+  const onTrace = ['python', 'lerobot', 'git', 'cortexm', 'java', 'coreml'].map((id) => {
     const r = R[id]; const p = r[3] ? r[3] : r[1];
     const q = id === 'java' || id === 'coreml' ? r[3] : r[2];
     return { x: q[0], z: q[1], r: 1.05, big: true };

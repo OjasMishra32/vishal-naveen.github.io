@@ -9,8 +9,11 @@ const canHover = () => matchMedia('(hover: hover) and (pointer: fine)').matches;
 export async function mount(ctx) {
   const root = document.getElementById('stack');
   if (!root) return;
-  const { lib, reduced } = ctx;
+  const { lib, reduced, content } = ctx;
   const { esc } = lib;
+  // The full list in plain text under the board: the board shows a curated 19, this shows everything.
+  const allSkills = (content.skills || []).map((g) =>
+    `<div class="sk__g"><dt>${esc(g.label)}</dt><dd><ul class="chips" role="list">${g.items.map((i) => `<li class="chip">${esc(i)}</li>`).join('')}</ul></dd></div>`).join('');
 
   const legend = GROUP_ORDER.map((g) => {
     const n = SKILLS.filter((s) => s.group === g).length;
@@ -36,7 +39,9 @@ export async function mount(ctx) {
     `<div class="pcb__idle"><p class="pcb__lead">Every chip is something I've used on a real project. ${canHover() ? 'Hover one' : 'Tap one'} to see where.</p><dl class="pcb__legend">${legend}</dl></div>` +
     `<div class="pcb__detail" hidden><p class="pcb__tag"><i class="pcb__dot"></i><span class="pcb__grp"></span></p>` +
     `<h3 class="pcb__name"></h3><p class="pcb__line"></p><p class="pcb__ref"><span class="pcb__rd"></span><span class="pcb__rp"></span></p></div>` +
-    `</div></div></div>`;
+    `</div></div>` +
+    (allSkills ? `<div class="sk reveal"><h3 class="sk__h">The full list</h3><dl class="sk__grid">${allSkills}</dl></div>` : '') +
+    `</div>`;
 
   const $ = (sel) => root.querySelector(sel);
   const stage = $('.pcb__stage'); const glHost = $('.pcb__gl'); const tilesEl = $('.pcb__tiles');

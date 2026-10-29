@@ -92,6 +92,47 @@
 .xp__bullets { display: grid; gap: 8px; margin-top: 14px; max-width: 66ch; }
 .xp__bullets li { position: relative; padding-left: 16px; color: var(--text-2); font-size: 15px; line-height: 1.6; }
 .xp__bullets li::before { content: ''; position: absolute; left: 0; top: 0.82em; width: 7px; height: 1px; background: var(--text-3); }
+.xp__role span { color: var(--text-3); }
+.xp__sum { margin-top: 12px; max-width: 62ch; color: var(--text); font-size: 17px; line-height: 1.55; letter-spacing: -0.008em; text-wrap: pretty; }
+.xp__chips { margin-top: 16px; gap: 6px; }
+.xp__chips .chip { height: 25px; font-size: 11.5px; }
+.xp__link { margin-top: 14px; font-size: 14.5px; }
+.xp__note { margin-top: 14px; color: var(--text-3); font-size: 13.5px; }
+
+/* Details: a quiet disclosure; the chevron turns when open. */
+.xp__more { margin-top: 14px; max-width: 66ch; }
+.xp__more > summary {
+  display: inline-flex; align-items: center; gap: 8px; list-style: none; cursor: pointer; user-select: none;
+  height: 32px; padding: 0 14px; border: 1px solid var(--line-2); border-radius: 999px;
+  color: var(--text-2); font-size: 13.5px; font-weight: 550; transition: border-color 0.25s, color 0.25s;
+}
+.xp__more > summary::-webkit-details-marker { display: none; }
+.xp__more > summary:hover { color: var(--text); border-color: var(--line-3); }
+.xp__more > summary i { width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform 0.3s var(--ease); }
+.xp__more[open] > summary i { transform: translateY(1px) rotate(-135deg); }
+.xp__more[open] > summary { color: var(--text); }
+.xp__bullets--more { margin-top: 16px; }
+
+/* The architecture strip: two nodes and the wire between them. */
+.xd { margin-top: 18px; padding: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: #070606; }
+.xd__row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(110px, 0.6fr) minmax(0, 1fr); align-items: center; gap: 14px; }
+.xd__node { padding: 14px; border: 1px solid var(--line-2); border-radius: 10px; background: #0b0a09; }
+.xd__t { display: grid; gap: 2px; color: var(--text); font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.xd__t span { color: var(--text-3); font-family: var(--font-mono); font-size: 11.5px; font-weight: 400; letter-spacing: 0; }
+.xd__node ul { display: grid; gap: 5px; margin-top: 10px; }
+.xd__node li { color: var(--text-2); font-size: 13px; line-height: 1.4; }
+.xd__link { display: grid; justify-items: center; gap: 4px; text-align: center; color: var(--text-3); font-family: var(--font-mono); font-size: 11px; line-height: 1.35; }
+.xd__wire { position: relative; width: 100%; height: 2px; margin-bottom: 6px; background: var(--line-3); overflow: hidden; border-radius: 2px; }
+.xd__wire i { position: absolute; top: 0; left: -30%; width: 30%; height: 100%; background: linear-gradient(90deg, transparent, var(--ember), transparent); animation: xd-pulse 2.4s linear infinite; }
+@keyframes xd-pulse { to { left: 100%; } }
+@media (prefers-reduced-motion: reduce) { .xd__wire i { animation: none; left: 35%; } }
+.xd figcaption { margin-top: 12px; color: var(--text-3); font-size: 12.5px; }
+@media (max-width: 640px) {
+  .xd__row { grid-template-columns: 1fr; }
+  .xd__wire { width: 2px; height: 28px; margin: 0 0 6px; }
+  .xd__wire i { left: 0; top: -30%; width: 100%; height: 30%; background: linear-gradient(180deg, transparent, var(--ember), transparent); animation-name: xd-pulse-v; }
+  @keyframes xd-pulse-v { to { top: 100%; } }
+}
 
 /* ── #leadership ──────────────────────────────────────── */
 .ld__feature {
@@ -178,4 +219,31 @@
 @media (max-width: 560px) {
   .led { height: 26px; padding: 8px 10px; }
   .led__d, .led__c { height: 26px; }
+}
+
+/* ── #highlights: the proof strip under the hero ──────── */
+.hi { padding-block: clamp(36px, 5vw, 72px) clamp(8px, 2vw, 24px); }
+.hi__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.hi__grid > li { border-bottom: 1px solid var(--line); }
+.hi__grid > li:not(:nth-child(3n + 1)) { border-left: 1px solid var(--line); }
+.hi__item {
+  display: grid; gap: 6px; align-content: start; height: 100%;
+  padding: clamp(20px, 2.4vw, 30px) clamp(16px, 2vw, 28px);
+  transition: background 0.3s;
+}
+.hi__item:hover, .hi__item:focus-visible { background: rgba(255, 240, 230, 0.025); }
+.hi__value { font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1; letter-spacing: -0.045em; color: var(--text); }
+.hi__label { color: var(--text); font-size: 15.5px; font-weight: 550; letter-spacing: -0.01em; line-height: 1.35; }
+.hi__detail { max-width: 34ch; color: var(--text-3); font-size: 13.5px; line-height: 1.5; }
+.hi__item:hover .hi__value { color: #fff; }
+@media (max-width: 900px) {
+  .hi__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hi__grid > li:not(:nth-child(3n + 1)) { border-left: 0; }
+  .hi__grid > li:nth-child(2n) { border-left: 1px solid var(--line); }
+}
+@media (max-width: 560px) {
+  .hi__item { padding: 18px 12px; }
+  .hi__value { font-size: 30px; }
+  .hi__label { font-size: 14px; }
+  .hi__detail { font-size: 12.5px; }
 }

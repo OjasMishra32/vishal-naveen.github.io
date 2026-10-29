@@ -4,8 +4,10 @@ import { esc, inline, lines } from '../../lib.js';
 export { esc, inline };
 
 // Makes figures in already-escaped bullet text scan first (plain weight, no colour).
-const NUM_RE = /\$?\d+(?:,\d{3})*(?:\.\d+)?(?:[%×+]|K\b)?/g;
-export const hl = (s) => inline(s).replace(NUM_RE, (m) => `<span class="hl">${m}</span>`);
+// Standalone numbers only: never the digits inside a name like Cortex-M7, RT1176, i32 or 1000BASE-T.
+const NUM_RE = /(?<![\w.\-/])\$?\d+(?:,\d{3})*(?:\.\d+)?(?:[%×+]|K\b)?(?![\w])/g;
+// A lone single digit (the 1 in "1 GHz") stays plain; it reads as a typo when bolded.
+export const hl = (s) => inline(s).replace(NUM_RE, (m) => (/^\d$/.test(m) ? m : `<span class="hl">${m}</span>`));
 
 // Section head: a masked title on the left, an optional one-line lead on the right.
 export const secHead = (id, titleLines, lead, cls = 'd2') =>

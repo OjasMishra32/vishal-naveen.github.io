@@ -1,9 +1,8 @@
-// #lab: the "Selected work" heading and the featured project, TactileVLA-Edge, as one compact card (no pin, no
-// scroll narrative). The four other projects are the 2x2 grid in #work (work.js).
+// #lab: the "Selected work" heading and the featured projects (content.projects with `featured`), each one
+// compact card that opens its case study. TactileVLA-Edge keeps its two portrait rollouts side by side; the
+// others lead with one wide loop. The remaining projects are the grid in #work (work.js).
 //
 // Every fact renders from content.js. Vision-only: nothing here claims tactile sensing. No B2 rate, no Hz.
-
-const SMOLVLA = '16/20'; // verified result (content.js bullets); stats[] only carries ACT.
 
 // A 3x3 glyph of the workspace grid: eight trained cells, B2 held out (dashed, marked).
 function gridGlyph() {
@@ -28,55 +27,61 @@ export async function mount(ctx) {
   if (!root) return;
   const { content, lib, reduced } = ctx;
   const { esc } = lib;
-  const p = content.projects.find((x) => x.id === 'tactilevla');
-  if (!p) return;
+  const featured = content.projects.filter((p) => p.featured && p.card);
+  if (!featured.length) return;
 
-  const act = content.stats.find((s) => s.id === 'act');
-  const demos = content.stats.find((s) => s.id === 'demos');
-  const [vAct, vSmol] = p.media.filter((m) => m.type === 'video' && m.portrait);
-  const link = (label) => p.links.find((l) => l.label === label);
-  const repo = link('Repository');
-  const site = link('Project site');
-  const pr = link('LeRobot PR #3798');
-
-  const video = (m) =>
-    `<figure class="fx__vid"><div class="fx__frame">` +
+  const video = (m, wide) =>
+    `<figure class="fx__vid"><div class="fx__frame${wide ? ' fx__frame--wide' : ''}"${wide && m.ar ? ` style="aspect-ratio:${esc(m.ar)}"` : ''}>` +
     `<video muted loop playsinline preload="none" poster="${esc(m.poster)}" src="${esc(m.src)}" aria-label="${esc(m.caption)}" disablepictureinpicture${reduced ? ' controls' : ''}></video>` +
     `</div><figcaption>${esc(m.caption)}</figcaption></figure>`;
+  const btnLink = (l) => `<a class="btn btn--sm" href="${esc(l.href)}" target="_blank" rel="noopener">${esc(l.label)}</a>`;
 
-  const metrics = [
-    [act.display, 'ACT policy success'],
-    [SMOLVLA, 'SmolVLA-450M success'],
-    [demos.display, 'teleoperated demos'],
-  ];
+  function card(p, i) {
+    const c = p.card;
+    const portrait = p.media.filter((m) => m.type === 'video' && m.portrait).slice(0, 2);
+    const wideMedia = p.media.find((m) => m.card);
+    const wide = !portrait.length && !!wideMedia;
+    const pr = p.links.find((l) => /pull\/\d+/.test(l.href));
+    const links = p.links.filter((l) => l !== pr).slice(0, 2);
+    const main =
+      `<div class="fx__main">` +
+      (p.award ? `<p class="fx__award"><i aria-hidden="true"></i>${esc(p.award)}</p>` : '') +
+      `<h3 class="fx__title" id="fx-title-${p.id}">${esc(p.title)}</h3>` +
+      `<p class="fx__sum">${esc(c.summary)}</p>` +
+      (p.pitch ? `<p class="fx__pitch">“${esc(p.pitch)}” <span>${esc(p.scope)}</span></p>` : '') +
+      `<ul class="chips fx__chips" aria-label="Stack">${c.chips.map((s) => `<li class="chip">${esc(s)}</li>`).join('')}</ul>` +
+      `<div class="fx__metrics">${c.metrics.map(([v, l]) => `<div class="metric"><span class="metric__value">${esc(v)}</span><span class="metric__label">${esc(l)}</span></div>`).join('')}</div>` +
+      (c.grid ? `<div class="fx__grid">${gridGlyph()}<p>${esc(c.grid)}</p></div>` : '') +
+      (p.team ? `<p class="fx__team"><b>Team of ${p.team.size}.</b> ${esc(p.team.mine)}</p>` : '') +
+      `<div class="fx__cta">` +
+      `<button class="btn btn--hot btn--sm" type="button" data-open-case="${p.id}">Case study</button>` +
+      links.map(btnLink).join('') +
+      `</div>` +
+      (pr ? `<p class="fx__pr"><a class="link" href="${esc(pr.href)}" target="_blank" rel="noopener">${esc(pr.label)}</a>, submitted and closed, not merged</p>` : '') +
+      `</div>`;
+    const media = wide
+      ? `<div class="fx__media fx__media--wide">${video(wideMedia, true)}</div>`
+      : `<div class="fx__media">${portrait.map((m) => video(m, false)).join('')}</div>`;
+    return (
+      `<article class="card fx${wide ? ' fx--wide' : ''} reveal" data-case="${p.id}" aria-labelledby="fx-title-${p.id}" style="--i:${i}">` +
+      (wide ? media + main : main + media) +
+      `</article>`
+    );
+  }
 
   root.innerHTML =
     `<div class="container">` +
     `<header class="sec-head"><h2 class="d1 lines" id="lab-title">${lib.lines(['Selected work'])}</h2>` +
-    `<p class="lead reveal">Robot learning first, then competition robot code, coding-theory research and an iOS aid for blind and low-vision users.</p></header>` +
-    `<article class="card fx reveal" data-case="tactilevla" aria-labelledby="fx-title">` +
-    `<div class="fx__main">` +
-    `<h3 class="fx__title" id="fx-title">${esc(p.title)}</h3>` +
-    `<p class="fx__sum">Imitation-learning policies on a sub-$300 SO-101 arm, tested on a workspace cell they never saw in training.</p>` +
-    `<ul class="chips fx__chips" aria-label="Stack">${['Vision only', ...p.stack].map((s) => `<li class="chip">${esc(s)}</li>`).join('')}</ul>` +
-    `<div class="fx__metrics">${metrics.map(([v, l]) => `<div class="metric"><span class="metric__value">${esc(v)}</span><span class="metric__label">${esc(l)}</span></div>`).join('')}</div>` +
-    `<div class="fx__grid">${gridGlyph()}<p>8 outer cells, 20 demos each. Cell B2 was held out of training.</p></div>` +
-    `<div class="fx__cta">` +
-    `<button class="btn btn--hot btn--sm" type="button" data-open-case>Case study</button>` +
-    (site ? `<a class="btn btn--sm" href="${esc(site.href)}" target="_blank" rel="noopener">Project site</a>` : '') +
-    (repo ? `<a class="btn btn--sm" href="${esc(repo.href)}" target="_blank" rel="noopener">Repository</a>` : '') +
-    `</div>` +
-    (pr ? `<p class="fx__pr"><a class="link" href="${esc(pr.href)}" target="_blank" rel="noopener">LeRobot PR #3798</a>, submitted and closed, not merged</p>` : '') +
-    `</div>` +
-    `<div class="fx__media">${video(vAct)}${video(vSmol)}</div>` +
-    `</article></div>`;
+    `<p class="lead reveal">Robot learning and two award-placed hackathon builds first, then an iOS aid for blind and low-vision users, competition robot code and coding-theory research.</p></header>` +
+    `<div class="fx-list">${featured.map(card).join('')}</div></div>`;
 
-  const card = root.querySelector('.fx');
-  root.querySelector('[data-open-case]').addEventListener('click', () => ctx.openCase && ctx.openCase('tactilevla'));
-  // The card opens the case study too, except where a link, button or video control was hit.
-  card.addEventListener('click', (e) => {
+  // A card opens its case study, except where a link, button or video control was hit.
+  root.addEventListener('click', (e) => {
+    const open = e.target.closest('[data-open-case]');
+    if (open) { ctx.openCase && ctx.openCase(open.dataset.openCase); return; }
     if (e.target.closest('a, button, video')) return;
-    ctx.openCase && ctx.openCase('tactilevla');
+    const cardEl = e.target.closest('[data-case]');
+    if (cardEl) ctx.openCase && ctx.openCase(cardEl.dataset.case);
   });
 
   /* ── Video: muted loops that play only while in view, and never while a case study is open ── */
@@ -97,10 +102,13 @@ export async function mount(ctx) {
       sync();
     }, { threshold: [0, 0.35, 0.7] });
     recs.forEach((r) => io.observe(r.el));
-    // Warm the rollouts a little before the card arrives so they start without a stall.
-    new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) recs.forEach((r) => { if (r.el.preload === 'none') r.el.preload = 'metadata'; });
-    }, { rootMargin: '1200px 0px' }).observe(root);
+    // Warm each rollout a little before its card arrives so it starts without a stall.
+    const warm = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      warm.unobserve(e.target);
+      e.target.querySelectorAll('video').forEach((v) => { if (v.preload === 'none') v.preload = 'metadata'; });
+    }), { rootMargin: '1200px 0px' });
+    root.querySelectorAll('.fx').forEach((el) => warm.observe(el));
   } else recs.forEach((r) => { r.vis = true; });
   document.addEventListener('visibilitychange', sync);
   ctx.on('case:open', () => { state.caseOpen = true; sync(); });

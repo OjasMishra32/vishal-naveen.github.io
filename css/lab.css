@@ -1,5 +1,6 @@
-/* #lab: the "Selected work" heading and the featured project as one compact card. */
+/* #lab: the "Selected work" heading and the featured projects, one compact card each. */
 .lab { padding-bottom: clamp(20px, 2.4vw, 32px); }
+.fx-list { display: grid; gap: clamp(16px, 2vw, 24px); }
 
 .fx {
   display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center;
@@ -20,6 +21,26 @@
 .gg-held { fill: none; stroke: var(--ember); stroke-width: 1.2; stroke-dasharray: 3 2.4; }
 .gg-dot { fill: var(--ember); }
 .fx__cta { display: flex; flex-wrap: wrap; gap: 8px; }
+/* Award line: the one ember dot, then plain text. */
+.fx__award { display: inline-flex; align-items: center; gap: 9px; color: var(--text); font-size: 13.5px; font-weight: 550; letter-spacing: -0.005em; }
+.fx__award i { width: 7px; height: 7px; border-radius: 50%; background: var(--ember); flex: none; }
+.fx__pitch { max-width: 52ch; color: var(--text); font-size: 15.5px; line-height: 1.5; }
+.fx__pitch span { display: block; margin-top: 2px; color: var(--text-3); font-size: 13.5px; }
+.fx__team { max-width: 56ch; color: var(--text-3); font-size: 13.5px; line-height: 1.5; }
+.fx__team b { color: var(--text-2); font-weight: 600; }
+
+/* Wide variant: one landscape loop across the top, the text below in two columns. */
+.fx--wide { grid-template-columns: 1fr; align-items: start; }
+.fx--wide .fx__media--wide { grid-template-columns: 1fr; }
+.fx--wide .fx__main {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); column-gap: clamp(24px, 4vw, 56px); align-items: start; grid-auto-flow: row dense;
+}
+.fx--wide .fx__main > * { grid-column: 1; }
+.fx--wide .fx__main > .fx__metrics, .fx--wide .fx__main > .fx__team, .fx--wide .fx__main > .fx__cta { grid-column: 2; }
+.fx--wide .fx__main > .fx__metrics { grid-row: 1 / span 3; align-self: start; }
+.fx__frame.fx__frame--wide { max-height: 420px; }
+.fx__frame--wide video { display: block; }
+.fx--wide .fx__metrics .metric__value { white-space: nowrap; font-size: clamp(26px, 2.4vw, 36px); }
 .fx__pr { color: var(--text-3); font-size: 13px; }
 .fx__pr .link { color: var(--text-2); }
 
@@ -32,9 +53,14 @@
 @media (max-width: 1000px) {
   .fx { grid-template-columns: 1fr; }
   .fx__media { max-width: 520px; }
+  .fx--wide .fx__media--wide { max-width: none; }
+  .fx--wide .fx__main { grid-template-columns: 1fr; }
+  .fx--wide .fx__main > * { grid-column: 1 !important; grid-row: auto !important; }
 }
 @media (max-width: 560px) {
   .fx { padding: 18px; }
   .fx__metrics { grid-template-columns: repeat(3, auto); gap: 10px 18px; }
   .fx__metrics .metric__value { font-size: 28px; }
+  .fx--wide .fx__metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .fx--wide .fx__metrics .metric__value { font-size: 21px; }
 }

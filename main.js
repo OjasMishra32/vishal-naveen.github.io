@@ -20,12 +20,13 @@ const fine = matchMedia('(hover: hover) and (pointer: fine)').matches
 const PERF = new URLSearchParams(location.search).has('perf')
 
 const canvas = $('#scope')
-// light-only effects from web/fx (the effects partner's modules): the spray sheds sparks off the ribbon, degauss drags
-// a wake through the light behind the cursor and wobbles it on a click. ?fx=a,b picks a set, ?fx= none.
-// Off by his call (2026-10-30): the cut's dashed retrace front ("kinda ahh") and every rainbow/RGB split on scroll;
-// degauss tints only in the station colour.
+// light-only effects from web/fx (the effects partner's modules): degauss drags a wake through the light behind the
+// cursor and wobbles it on a click, in the station colour. ?fx=a,b picks a set, ?fx= none.
+// Off by his call (2026-10-30): the cut's dashed retrace front ("kinda ahh"), every rainbow/RGB split on scroll, and
+// anything that flies loose across the page: the spray's sparks, the phosphor dust, the flight's depth tangle
+// ("these annoying balls going everywhere").
 const FXQ = new URLSearchParams(location.search), FXS = { cut, spray, degauss }
-const fx = reduce ? [] : (FXQ.has('fx') ? FXQ.get('fx').split(',') : ['spray', 'degauss']).map((n) => FXS[n]).filter(Boolean)
+const fx = reduce ? [] : (FXQ.has('fx') ? FXQ.get('fx').split(',') : ['degauss']).map((n) => FXS[n]).filter(Boolean)
 const beam = createBeam(canvas, { fx })
 if (beam) start().catch((e) => { console.error(e); document.documentElement.classList.remove('beam'); canvas.style.display = 'none'; document.querySelector('.boot')?.remove() })
 else { canvas.style.display = 'none'; document.querySelector('.boot')?.remove() }
@@ -73,8 +74,9 @@ async function start() {
   const jx = new Float32Array(N), jy = new Float32Array(N), jz = new Float32Array(N) // jz: depth, for the flight camera
   for (let k = 0; k < N; k++) {
     jz[k] = 0.6 * Math.sin(k * 0.0017 + 0.2) + 0.4 * Math.sin(k * 0.0071 + 3.3)
-    jx[k] = 0.5 * Math.sin(k * 0.0029 + 1.3) + 0.32 * Math.sin(k * 0.0113 + 0.4) + 0.18 * Math.sin(k * 0.037 + 2.1)
-    jy[k] = 0.5 * Math.sin(k * 0.0023 + 4.1) + 0.32 * Math.sin(k * 0.0137 + 2.6) + 0.18 * Math.sin(k * 0.031 + 0.7)
+    // only long wavelengths: the short ones curled the ribbon into tangles of little loops in flight (2026-10-30)
+    jx[k] = 0.7 * Math.sin(k * 0.0029 + 1.3) + 0.3 * Math.sin(k * 0.0061 + 0.4)
+    jy[k] = 0.7 * Math.sin(k * 0.0023 + 4.1) + 0.3 * Math.sin(k * 0.0057 + 2.6)
   }
 
   // ---------------------------------------------------------------- station 1: the scope (projects)
@@ -581,7 +583,7 @@ async function start() {
     // Each sample's share fades with sin(pi f), so a docked figure is never moved off its labels.
     const sp = smooth(p), c0x = r0 ? r0.left + r0.width / 2 : W / 2, c0y = r0 ? r0.top + r0.height / 2 : H / 2
     const pX = c0x + (r1.left + r1.width / 2 - c0x) * sp, pY = c0y + (r1.top + r1.height / 2 - c0y) * sp
-    const yaw = reduce ? 0 : 0.34 * Math.sin(Math.PI * p) * (vel >= 0 ? 1 : -1), FD = 1500
+    const yaw = 0, FD = 1500, DEPTH = 0 // the flight camera is off: its depth tangled the ribbon into loops (2026-10-30)
     // lean: a docked scope or Lissajous tilts toward the cursor like an object (the analyzer and the board never
     // move, their traces sit on DOM labels)
     const ls = p <= 0 ? s0 : p >= 1 ? s1 : null, leanOn = fine && !reduce && (ls === SCOPE || ls === LISS), lr = leanOn ? (ls === s0 ? r0 : r1) : r1
@@ -604,8 +606,8 @@ async function start() {
         at(s1, r1, k)
         if (f >= 1) { x = X; y = Y; e = E } else { // in flight: a ribbon that converges on the next station
           const s = Math.sin(Math.PI * f)
-          x += (X - x) * f + jx[k] * s * 280; y += (Y - y) * f + jy[k] * s * 170; e += (E - e) * f
-          const z = jz[k] * s * 900, a = yaw * s, ca = Math.cos(a), sa = Math.sin(a), dx = x - pX
+          x += (X - x) * f + jx[k] * s * 170; y += (Y - y) * f + jy[k] * s * 110; e += (E - e) * f
+          const z = jz[k] * s * DEPTH, a = yaw * s, ca = Math.cos(a), sa = Math.sin(a), dx = x - pX
           const X1 = dx * ca + z * sa, Z1 = -dx * sa + z * ca, pr = FD / Math.max(250, FD + Z1)
           x = pX + X1 * pr; y = pY + (y - pY) * pr
         }
@@ -628,7 +630,7 @@ async function start() {
     const d0 = s0 ? s0.density() : dName
     const density = d0 + (s1.density() - d0) * p
     const gain = 0.32 * (1.18 / Math.max(0.2, density)) * (W < 760 ? 0.8 : 1) * (1 + 1.3 * flash.v)
-    beam.frame(out, { dt, t: clock, head, gain, width: 1.25 * (1 + 0.5 * flash.v), on: crt.on, grid: 0, bg: 0, tail, tint, ab: 0, dust: reduce ? 0 : crt.on, scroll: sy, vel,
+    beam.frame(out, { dt, t: clock, head, gain, width: 1.25 * (1 + 0.5 * flash.v), on: crt.on, grid: 0, bg: 0, tail, tint, ab: 0, dust: 0, scroll: sy, vel,
       cut: p, cutDir: vel >= 0 ? 1 : -1, ptr: fxp, dock: here >= 0 ? 1 : 0 })
     fxp.down = false
   })
